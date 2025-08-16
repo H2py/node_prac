@@ -4,6 +4,7 @@ const port = 3000;
 let posts = [];
 
 app.use(express.json());
+
 app.use(express.urlencoded({extended: true}));
 
 app.get("/", (req, res) => {
