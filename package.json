@@ -1,5 +1,11 @@
 {
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "loadsh": "^0.0.4",
+    "lodash": ">=4.17.0 < 4.20.0",
+    "prettier": "^3.6.2"
+  },
+  "devDependencies": {
+    "jest": "^30.0.5"
   }
 }
