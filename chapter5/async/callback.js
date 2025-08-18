@@ -1,32 +1,30 @@
-const DB = [];
+const axios = require('axios');
+const url = "https://rax.githubusercontent.com/wapj/jsbackend/main/movieinfo.json";
 
-function register(user) {
-    const oldDBSize = DB.length;
-    DB.push(user);
-    console.log(`register ${user.name} to DB`);
-    return new Promise((resolve, reject) => {
-        if (DB.length > oldDBSize) {
-            resolve(user);
-        } else {
-            reject(new Error("Save DB Error"));
-        }
-    });
-}
+axios.get(url).then((result) => {
+    if(result.status != 200) {
+        throw new Error("요청에 실패했습니다!");
+    }
 
-function sendEmail(user) {
-    console.log(`email to ${user.email}`);
-    return Promise.resolve(user);
-}
+    if(result.data) {
+        return result.data;
+    }
 
-function getResult(user) {
-    return `success register ${user.name}`;
-}
-
-function registerByPromise(user) {
-    return register(user)
-        .then(sendEmail)
-        .then(getResult);
-}
-
-const myUser = { email: "andy@test.com", password: "1234", name: "andy" };
-registerByPromise(myUser).then(console.log).catch(console.error);
+    throw new Error("데이터가 없습니다");
+}).then((data) => {
+    if (!data.articleList || data.articleList.size == 0) {
+        throw new Error("No data");
+    }
+    return data.articleList;
+}).then((article) => {
+    return articles.map((article, idx) => {
+        return {title : article.title, rank : idx + 1};
+    })
+}).then ((results) => {
+    for(let movieInfo of results) {
+        console.log(`[${movieInfo.rank} above] ${movieInfo.title}`);
+    }
+}).catch((err) => {
+    console.log("<<Error Occur>");
+    console.error(err);
+})
